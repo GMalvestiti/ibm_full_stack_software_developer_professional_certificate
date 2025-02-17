@@ -1,0 +1,22 @@
+.select-option {
+    background-color: #90EE90;
+    color: black;
+    border: none;
+    transition: background-color 0.3s, color 0.3s;
+    width: 190px;
+}
+
+.style-div {
+    background-color: #90EE90;
+    color: white;
+    font-weight: bold;
+    width: 210px;
+}
+
+.style-select {
+    background-color: #90EE90;
+    color: white;
+    font-weight: bold;
+    border: none;
+    margin-left: 3px;
+}

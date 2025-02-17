@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dealership Review</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{% url 'djangoapp:index' %}">Best Cars</a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'djangoapp:index' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'djangoapp:about' %}">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'djangoapp:contact' %}">Contact Us</a>
+                </li>
+            </ul>
+        </div>
+        <div class="nav navbar-nav navbar-right">
+            {% if user.is_authenticated %}
+            <li>
+                <a class="btn" style="color:white;" href="#">({{ user.username }})</a>
+                <a class="btn btn-outline-light" href="{% url 'djangoapp:add_review' dealer_id%}">Add Review</a>
+                <a class="btn btn-outline-light" href="{% url 'djangoapp:logout' %}?next={{ request.path }}">Logout</a>
+            </li>
+            {% else %}
+            <form class="form-inline" action="{% url 'djangoapp:login' %}?next={{ request.path }}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input id="username" name="username" class="form-control mr-sm-2" type="text" placeholder="Username" required>
+                    <input id="psw" name="psw" class="form-control mr-sm-2" type="password" placeholder="Password" required>
+                </div>
+                <button class="btn btn-outline-light mr-sm-2 my-sm-1" type="submit">Login</button>
+                <a class="btn btn-outline-light" href="{% url 'djangoapp:signup' %}">Sign Up</a>
+            </form>
+            {% endif %}
+        <div>
+    </nav>
+
+    <h1>Reviews for: {{ dealer.full_name }}</h1>
+    <br>
+
+    <div class="container">
+        <div class="row">
+            {% for review in reviews %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="{{ MEDIA_URL }}/emoji/{{ review.sentiment }}.png" class="card-img-top" style="float: left; height: 40px; width: 40px; display: inline-block;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ review.car_make }}, {{ review.car_model }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ review.car_year }}</h6>
+                        <p class="card-text">{{ review.review }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+
+</body>
+
+</html>
